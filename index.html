@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Web Redesign — Project Timeline</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=DM+Mono:wght@400;500&display=swap');
+
+:root {
+  --purple: #7F77DD;
+  --purple-bg: #EEEDFE;
+  --purple-dark: #3C3489;
+  --teal: #1D9E75;
+  --teal-bg: #E1F5EE;
+  --teal-dark: #085041;
+  --coral: #D85A30;
+  --coral-bg: #FAECE7;
+  --coral-dark: #712B13;
+  --ink: #18182b;
+  --ink-2: #44445a;
+  --ink-3: #888899;
+  --ink-4: #c0c0cc;
+  --rule: #e4e4ef;
+  --surface: #f5f5fa;
+  --card: #ffffff;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  background: var(--surface);
+  color: var(--ink);
+  min-height: 100vh;
+  padding: 52px 44px 72px;
+}
+
+.page { max-width: 980px; margin: 0 auto; }
+
+/* Header */
+.header { margin-bottom: 40px; }
+.header-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+.title { font-size: 28px; font-weight: 500; letter-spacing: -0.03em; line-height: 1.2; }
+.title em { font-style: normal; color: var(--purple); }
+.meta { font-size: 13px; color: var(--ink-3); margin-top: 7px; font-weight: 300; }
+.kickoff {
+  font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500;
+  background: var(--purple-bg); color: var(--purple-dark);
+  padding: 5px 13px; border-radius: 20px; white-space: nowrap;
+  align-self: flex-start; margin-top: 4px;
+}
+
+/* Summary row */
+.summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-bottom: 36px; }
+.sum-card { background: var(--card); border: 1px solid var(--rule); border-radius: 10px; padding: 14px 16px; }
+.sum-label { font-size: 11px; color: var(--ink-3); margin-bottom: 5px; letter-spacing: 0.02em; }
+.sum-value { font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500; color: var(--ink); }
+.sum-value.live { color: var(--purple); }
+
+/* Controls */
+.ctrl-heading { font-size: 11px; font-weight: 500; color: var(--ink-3); letter-spacing: 0.07em; text-transform: uppercase; margin-bottom: 10px; }
+.controls { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 36px; }
+.ctrl {
+  background: var(--card); border: 1px solid var(--rule); border-radius: 10px;
+  padding: 13px 16px; min-width: 170px; flex: 1;
+}
+.ctrl-name { font-size: 11px; color: var(--ink-3); margin-bottom: 8px; }
+.ctrl-row { display: flex; align-items: center; gap: 10px; }
+.ctrl-row input[type=range] {
+  flex: 1; height: 3px; cursor: pointer;
+  -webkit-appearance: none; appearance: none;
+  background: var(--rule); border-radius: 2px; outline: none;
+}
+.ctrl-row input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 15px; height: 15px;
+  border-radius: 50%; background: var(--teal); cursor: pointer;
+  box-shadow: 0 0 0 3px var(--teal-bg);
+}
+.ctrl-row input[type=range]::-moz-range-thumb {
+  width: 15px; height: 15px; border: none;
+  border-radius: 50%; background: var(--teal); cursor: pointer;
+}
+.ctrl-pill {
+  font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500;
+  background: var(--teal-bg); color: var(--teal-dark);
+  padding: 3px 9px; border-radius: 12px; min-width: 34px; text-align: center;
+}
+
+/* Chart card */
+.chart-card { background: var(--card); border: 1px solid var(--rule); border-radius: 14px; padding: 28px 24px 24px; overflow-x: auto; }
+
+table { border-collapse: collapse; }
+.lbl { font-size: 12px; white-space: nowrap; padding-right: 14px; text-align: right; min-width: 172px; height: 30px; vertical-align: middle; color: var(--ink-2); }
+.lbl.ph { font-weight: 500; }
+.lbl.ag { color: var(--purple-dark); }
+.lbl.cl { color: var(--teal-dark); }
+
+.dh { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--ink-4); text-align: center; width: 22px; min-width: 22px; height: 22px; vertical-align: bottom; padding-bottom: 3px; user-select: none; }
+.dh.wk { color: var(--ink-3); font-weight: 500; }
+
+.cell { width: 22px; min-width: 22px; height: 30px; position: relative; }
+.bar { position: absolute; top: 5px; bottom: 5px; left: 0; right: 0; cursor: default; transition: filter 0.15s; }
+.bar:hover { filter: brightness(1.1); }
+
+.lane-tr td { font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; padding: 14px 0 5px; }
+.gap-tr td { height: 12px; border-top: 1px solid var(--rule); }
+
+.legend { display: flex; gap: 18px; flex-wrap: wrap; margin-top: 20px; }
+.leg { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--ink-3); }
+.leg-dot { width: 11px; height: 11px; border-radius: 3px; flex-shrink: 0; }
+
+/* Footer dates */
+.footer { margin-top: 32px; display: flex; gap: 24px; flex-wrap: wrap; }
+.foot { font-size: 12px; }
+.fk { color: var(--ink-3); margin-right: 4px; }
+.fv { font-family: 'DM Mono', monospace; font-weight: 500; color: var(--ink); }
+.fv.hi { color: var(--coral-dark); }
+
+/* Tooltip */
+.tip {
+  position: fixed; pointer-events: none; display: none; z-index: 200;
+  background: var(--ink); color: #fff; font-family: 'DM Mono', monospace;
+  font-size: 11px; line-height: 1.65; padding: 7px 11px; border-radius: 7px;
+  white-space: pre; box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+}
+
+@media (max-width: 600px) {
+  body { padding: 28px 16px 48px; }
+  .title { font-size: 22px; }
+  .lbl { min-width: 130px; font-size: 11px; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div class="header-row">
+      <div>
+        <div class="title">Web Redesign<br><em>Project Timeline</em></div>
+        <div class="meta">Slide the controls to adjust each feedback round — all dates update instantly.</div>
+      </div>
+      <div class="kickoff">Kick-off: 23 Mar 2026</div>
+    </div>
+  </div>
+
+  <div class="summary">
+    <div class="sum-card"><div class="sum-label">Phase 1 — IA</div><div class="sum-value">10 days</div></div>
+    <div class="sum-card"><div class="sum-label">Phase 2 — Design</div><div class="sum-value">15 days</div></div>
+    <div class="sum-card"><div class="sum-label">Phase 3 — Responsive</div><div class="sum-value">10 days</div></div>
+    <div class="sum-card"><div class="sum-label">Polish &amp; launch</div><div class="sum-value">5 days</div></div>
+    <div class="sum-card"><div class="sum-label">Total duration</div><div class="sum-value live" id="s-total">—</div></div>
+    <div class="sum-card"><div class="sum-label">Launch by</div><div class="sum-value live" id="s-launch">—</div></div>
+  </div>
+
+  <div class="ctrl-heading">Client — feedback round durations</div>
+  <div class="controls">
+    <div class="ctrl">
+      <div class="ctrl-name">Feedback R1 — after IA</div>
+      <div class="ctrl-row">
+        <input type="range" id="f1" min="1" max="10" value="5" step="1">
+        <span class="ctrl-pill" id="f1v">5d</span>
+      </div>
+    </div>
+    <div class="ctrl">
+      <div class="ctrl-name">Feedback R2 — after design</div>
+      <div class="ctrl-row">
+        <input type="range" id="f2" min="1" max="10" value="5" step="1">
+        <span class="ctrl-pill" id="f2v">5d</span>
+      </div>
+    </div>
+    <div class="ctrl">
+      <div class="ctrl-name">Feedback R3 — after responsive</div>
+      <div class="ctrl-row">
+        <input type="range" id="f3" min="1" max="10" value="5" step="1">
+        <span class="ctrl-pill" id="f3v">5d</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="chart-card">
+    <table id="gt"></table>
+    <div class="legend">
+      <div class="leg"><div class="leg-dot" style="background:#7F77DD"></div>Agency — phase work</div>
+      <div class="leg"><div class="leg-dot" style="background:#1D9E75"></div>Client — feedback &amp; approval</div>
+      <div class="leg"><div class="leg-dot" style="background:#D85A30"></div>Polish &amp; launch</div>
+    </div>
+  </div>
+
+  <div class="footer" id="ft"></div>
+
+</div>
+<div class="tip" id="tip"></div>
+
+<script>
+function addD(d,n){const r=new Date(d);r.setDate(r.getDate()+n);return r;}
+function isWE(d){return d.getDay()===0||d.getDay()===6;}
+function addBiz(d,n){let r=new Date(d),i=0;while(i<n){r=addD(r,1);if(!isWE(r))i++;}return r;}
+function nextBiz(d){let r=new Date(d);while(isWE(r))r=addD(r,1);return r;}
+function fmt(d){return d.toLocaleDateString('en-AU',{day:'numeric',month:'short'});}
+function key(d){return d.toISOString().slice(0,10);}
+function countBiz(a,b){let n=0,d=new Date(a);while(d<=b){if(!isWE(d))n++;d=addD(d,1);}return n;}
+
+const KICK = new Date('2026-03-22');
+const P1=10, P2=15, P3=10, PL=5;
+const tip = document.getElementById('tip');
+
+document.addEventListener('mousemove', e => {
+  if (tip.style.display === 'block') {
+    tip.style.left = (e.clientX + 14) + 'px';
+    tip.style.top  = (e.clientY - 8)  + 'px';
+  }
+});
+
+function build() {
+  const f1n = +document.getElementById('f1').value;
+  const f2n = +document.getElementById('f2').value;
+  const f3n = +document.getElementById('f3').value;
+  document.getElementById('f1v').textContent = f1n + 'd';
+  document.getElementById('f2v').textContent = f2n + 'd';
+  document.getElementById('f3v').textContent = f3n + 'd';
+
+  const p1s = nextBiz(KICK);      const p1e = addBiz(p1s, P1-1);
+  const f1s = addBiz(p1e, 1);     const f1e = addBiz(f1s, f1n-1);
+  const p2s = addBiz(f1e, 1);     const p2e = addBiz(p2s, P2-1);
+  const f2s = addBiz(p2e, 1);     const f2e = addBiz(f2s, f2n-1);
+  const p3s = addBiz(f2e, 1);     const p3e = addBiz(p3s, P3-1);
+  const f3s = addBiz(p3e, 1);     const f3e = addBiz(f3s, f3n-1);
+  const ls  = addBiz(f3e, 1);     const le  = addBiz(ls,  PL-1);
+
+  document.getElementById('s-total').textContent = countBiz(p1s, le) + ' days';
+  document.getElementById('s-launch').textContent = fmt(le);
+
+  const agRows = [
+    {label:'IA + initial concept',        s:p1s, e:p1e, c:'#7F77DD'},
+    {label:'Desktop design + Webflow dev', s:p2s, e:p2e, c:'#7F77DD'},
+    {label:'Responsive design + dev',      s:p3s, e:p3e, c:'#7F77DD'},
+    {label:'Polish & launch',              s:ls,  e:le,  c:'#D85A30'},
+  ];
+  const clRows = [
+    {label:'Feedback R1', s:f1s, e:f1e, c:'#1D9E75', n:f1n},
+    {label:'Feedback R2', s:f2s, e:f2e, c:'#1D9E75', n:f2n},
+    {label:'Feedback R3', s:f3s, e:f3e, c:'#1D9E75', n:f3n},
+  ];
+
+  const bizDays = [];
+  let cur = new Date(p1s);
+  while (cur <= addD(le, 1)) { if (!isWE(cur)) bizDays.push(new Date(cur)); cur = addD(cur,1); }
+
+  const table = document.getElementById('gt');
+  table.innerHTML = '';
+
+  // Day number row
+  const hTr = document.createElement('tr');
+  const hb = document.createElement('th'); hb.className='lbl'; hTr.appendChild(hb);
+  bizDays.forEach(d => {
+    const th = document.createElement('th');
+    th.className = 'dh' + (d.getDay()===1 ? ' wk' : '');
+    if (d.getDay()===1 || d.getDate()===1) th.textContent = d.getDate();
+    hTr.appendChild(th);
+  });
+  table.appendChild(hTr);
+
+  // Month row
+  const mTr = document.createElement('tr');
+  const mb = document.createElement('td'); mb.className='lbl'; mTr.appendChild(mb);
+  let prevM = null;
+  bizDays.forEach(d => {
+    const td = document.createElement('td');
+    if (d.getMonth() !== prevM && d.getDate() <= 5) {
+      td.style.cssText = 'font-size:10px;font-weight:500;color:var(--ink-3);white-space:nowrap;font-family:"DM Mono",monospace;vertical-align:bottom;padding-bottom:3px';
+      td.textContent = d.toLocaleDateString('en-AU',{month:'short',year:'2-digit'});
+      prevM = d.getMonth();
+    }
+    mTr.appendChild(td);
+  });
+  table.appendChild(mTr);
+
+  function laneHeader(label, color) {
+    const tr = document.createElement('tr'); tr.className = 'lane-tr';
+    const td = document.createElement('td'); td.colSpan = bizDays.length+1;
+    td.style.color = color; td.textContent = label;
+    tr.appendChild(td); table.appendChild(tr);
+  }
+
+  function addRows(rows, lane) {
+    rows.forEach(row => {
+      const tr = document.createElement('tr');
+      const lbl = document.createElement('td');
+      lbl.className = 'lbl ph ' + lane;
+      lbl.textContent = row.label;
+      tr.appendChild(lbl);
+      const days = countBiz(row.s, row.e);
+      bizDays.forEach(d => {
+        const td = document.createElement('td'); td.className = 'cell';
+        const k = key(d);
+        if (d >= row.s && d <= row.e) {
+          const bar = document.createElement('div'); bar.className = 'bar';
+          bar.style.background = row.c; bar.style.opacity = '0.87';
+          const first = key(row.s)===k, last = key(row.e)===k;
+          bar.style.borderRadius = first&&last?'3px':first?'3px 0 0 3px':last?'0 3px 3px 0':'0';
+          bar.addEventListener('mouseenter', () => {
+            tip.style.display = 'block';
+            tip.textContent = row.label + '\n' + fmt(row.s) + ' – ' + fmt(row.e) + '\n' + days + ' business days';
+          });
+          bar.addEventListener('mouseleave', () => { tip.style.display='none'; });
+          td.appendChild(bar);
+        }
+        tr.appendChild(td);
+      });
+      table.appendChild(tr);
+    });
+  }
+
+  laneHeader('Agency', '#3C3489');
+  addRows(agRows, 'ag');
+
+  const gap = document.createElement('tr'); gap.className='gap-tr';
+  const gd = document.createElement('td'); gd.colSpan=bizDays.length+1; gap.appendChild(gd);
+  table.appendChild(gap);
+
+  laneHeader('Client', '#085041');
+  addRows(clRows, 'cl');
+
+  // Footer
+  const ft = document.getElementById('ft'); ft.innerHTML='';
+  [
+    ['Kick-off',    fmt(p1s), false],
+    ['P1 complete', fmt(p1e), false],
+    ['P2 complete', fmt(p2e), false],
+    ['P3 complete', fmt(p3e), false],
+    ['Launch by',   fmt(le),  true],
+  ].forEach(([k,v,hi]) => {
+    const el = document.createElement('div'); el.className='foot';
+    el.innerHTML = '<span class="fk">'+k+'</span><span class="fv'+(hi?' hi':'')+'">'+v+'</span>';
+    ft.appendChild(el);
+  });
+}
+
+build();
+document.querySelectorAll('input[type=range]').forEach(el => el.addEventListener('input', build));
+</script>
+</body>
+</html>
