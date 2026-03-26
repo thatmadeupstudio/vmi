@@ -117,6 +117,13 @@ table { border-collapse: collapse; }
 .fv { font-family: 'DM Mono', monospace; font-weight: 500; color: var(--ink); }
 .fv.hi { color: var(--coral-dark); }
 
+/* Weekly Updates */
+.updates { margin-top: 48px; }
+.updates-heading { font-size: 11px; font-weight: 500; color: var(--ink-3); letter-spacing: 0.07em; text-transform: uppercase; margin-bottom: 14px; }
+.update-entry { background: var(--card); border: 1px solid var(--rule); border-radius: 10px; padding: 16px 18px; margin-bottom: 10px; display: flex; gap: 20px; align-items: baseline; flex-wrap: wrap; }
+.update-date { font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500; color: var(--ink-3); white-space: nowrap; min-width: 90px; }
+.update-text { font-size: 13px; color: var(--ink-2); line-height: 1.5; }
+
 /* Tooltip */
 .tip {
   position: fixed; pointer-events: none; display: none; z-index: 200;
@@ -189,6 +196,14 @@ table { border-collapse: collapse; }
   </div>
 
   <div class="footer" id="ft"></div>
+
+  <div class="updates">
+    <div class="updates-heading">Weekly updates</div>
+    <div class="update-entry">
+      <div class="update-date">Fri, 27 Mar</div>
+      <div class="update-text">Finalised the site structure and user flow. Wireframes and moodboard ongoing.</div>
+    </div>
+  </div>
 
 </div>
 <div class="tip" id="tip"></div>
