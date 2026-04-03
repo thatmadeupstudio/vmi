@@ -123,6 +123,9 @@ table { border-collapse: collapse; }
 .update-entry { background: var(--card); border: 1px solid var(--rule); border-radius: 10px; padding: 16px 18px; margin-bottom: 10px; display: flex; gap: 20px; align-items: baseline; flex-wrap: wrap; }
 .update-date { font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500; color: var(--ink-3); white-space: nowrap; min-width: 90px; }
 .update-text { font-size: 13px; color: var(--ink-2); line-height: 1.5; }
+.update-links { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+.update-link { font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500; color: var(--purple-dark); background: var(--purple-bg); padding: 3px 10px; border-radius: 12px; text-decoration: none; }
+.update-link:hover { opacity: 0.75; }
 
 /* Tooltip */
 .tip {
@@ -199,6 +202,17 @@ table { border-collapse: collapse; }
 
   <div class="updates">
     <div class="updates-heading">Weekly updates</div>
+    <div class="update-entry">
+      <div class="update-date">Fri, 3 Apr</div>
+      <div class="update-text">
+        Site structure, wireframes, and moodboard finalised.
+        <div class="update-links">
+          <a class="update-link" href="https://www.figma.com/board/usTo4r9tC9ra3P1FpPOIm5/VMI-Worldwide---Concepts---Wireframes?node-id=0-1&p=f&t=QL1muGzmAo6kGkSg-0" target="_blank" rel="noopener">Site structure</a>
+          <a class="update-link" href="https://www.figma.com/proto/tHeiPa3b0OuzgL7Tzb6OMC/VMI?node-id=4769-59&p=f&t=0kVFIIeXjWfjWPj5-0&scaling=scale-down-width&content-scaling=fixed&starting-point-node-id=4769%3A59&page-id=387%3A2406" target="_blank" rel="noopener">Moodboard</a>
+          <a class="update-link" href="https://www.figma.com/proto/tHeiPa3b0OuzgL7Tzb6OMC/VMI?node-id=4826-23179&t=0kVFIIeXjWfjWPj5-0&scaling=scale-down-width&content-scaling=fixed&page-id=4776%3A59" target="_blank" rel="noopener">Wireframes</a>
+        </div>
+      </div>
+    </div>
     <div class="update-entry">
       <div class="update-date">Fri, 27 Mar</div>
       <div class="update-text">Finalised the site structure and user flow. Wireframes and moodboard ongoing.</div>
