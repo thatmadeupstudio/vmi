@@ -169,8 +169,7 @@ table { border-collapse: collapse; }
     <div class="ctrl">
       <div class="ctrl-name">Feedback R1 — after IA</div>
       <div class="ctrl-row">
-        <input type="range" id="f1" min="1" max="10" value="5" step="1">
-        <span class="ctrl-pill" id="f1v">5d</span>
+        <span class="ctrl-pill" id="f1v"></span>
       </div>
     </div>
     <div class="ctrl">
@@ -243,16 +242,15 @@ document.addEventListener('mousemove', e => {
 });
 
 function build() {
-  const f1n = +document.getElementById('f1').value;
   const f2n = +document.getElementById('f2').value;
   const f3n = +document.getElementById('f3').value;
-  document.getElementById('f1v').textContent = f1n + 'd';
   document.getElementById('f2v').textContent = f2n + 'd';
   document.getElementById('f3v').textContent = f3n + 'd';
 
   const p1s = nextBiz(KICK);      const p1e = addBiz(p1s, P1-1);
-  const f1s = addBiz(p1e, 1);     const f1e = addBiz(f1s, f1n-1);
-  const p2s = addBiz(f1e, 1);     const p2e = addBiz(p2s, P2-1);
+  const f1s = addBiz(p1e, 1);     const f1e = new Date('2026-04-16');
+  document.getElementById('f1v').textContent = countBiz(f1s, f1e) + 'd';
+  const p2s = new Date('2026-04-16'); const p2e = addBiz(p2s, P2-1);
   const f2s = addBiz(p2e, 1);     const f2e = addBiz(f2s, f2n-1);
   const p3s = addBiz(f2e, 1);     const p3e = addBiz(p3s, P3-1);
   const f3s = addBiz(p3e, 1);     const f3e = addBiz(f3s, f3n-1);
@@ -268,7 +266,7 @@ function build() {
     {label:'Polish & launch',              s:ls,  e:le,  c:'#D85A30'},
   ];
   const clRows = [
-    {label:'Feedback R1', s:f1s, e:f1e, c:'#1D9E75', n:f1n},
+    {label:'Feedback R1', s:f1s, e:f1e, c:'#1D9E75'},
     {label:'Feedback R2', s:f2s, e:f2e, c:'#1D9E75', n:f2n},
     {label:'Feedback R3', s:f3s, e:f3e, c:'#1D9E75', n:f3n},
   ];
