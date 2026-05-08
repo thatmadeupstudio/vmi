@@ -102,6 +102,9 @@ table { border-collapse: collapse; }
 .cell { width: 22px; min-width: 22px; height: 30px; position: relative; }
 .bar { position: absolute; top: 5px; bottom: 5px; left: 0; right: 0; cursor: default; transition: filter 0.15s; }
 .bar:hover { filter: brightness(1.1); }
+.gt-wrap { position: relative; }
+.blocked-overlay { position: absolute; pointer-events: none; background: repeating-linear-gradient(45deg, rgba(216,90,48,0.32) 0 5px, transparent 5px 10px); border-left: 1.5px dashed rgba(216,90,48,0.75); z-index: 5; }
+.blocked-label { position: absolute; top: 4px; left: 6px; font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500; color: var(--coral-dark); background: rgba(255,255,255,0.85); padding: 2px 7px; border-radius: 10px; pointer-events: none; }
 
 .lane-tr td { font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; padding: 14px 0 5px; }
 .gap-tr td { height: 12px; border-top: 1px solid var(--rule); }
@@ -189,11 +192,12 @@ table { border-collapse: collapse; }
   </div>
 
   <div class="chart-card">
-    <table id="gt"></table>
+    <div class="gt-wrap" id="gt-wrap"><table id="gt"></table></div>
     <div class="legend">
       <div class="leg"><div class="leg-dot" style="background:#7F77DD"></div>Agency — phase work</div>
       <div class="leg"><div class="leg-dot" style="background:#1D9E75"></div>Client — feedback &amp; approval</div>
       <div class="leg"><div class="leg-dot" style="background:#D85A30"></div>Polish &amp; launch</div>
+      <div class="leg"><div class="leg-dot" style="background:repeating-linear-gradient(45deg,#D85A30 0 3px,#FAECE7 3px 6px)"></div>Blocked</div>
     </div>
   </div>
 
@@ -250,6 +254,7 @@ function countBiz(a,b){let n=0,d=new Date(a);while(d<=b){if(!isWE(d))n++;d=addD(
 
 const KICK = new Date('2026-03-22');
 const P1=10, P2=15, P3=10, PL=5;
+const BLOCKED_FROM = new Date('2026-05-06');
 const tip = document.getElementById('tip');
 
 document.addEventListener('mousemove', e => {
@@ -269,7 +274,7 @@ function build() {
   const f1s = addBiz(p1e, 1);     const f1e = new Date('2026-04-16');
   document.getElementById('f1v').textContent = countBiz(f1s, f1e) + 'd';
   const p2s = new Date('2026-04-16'); const p2e = addBiz(p2s, P2-1);
-  const f2s = addBiz(p2e, 1);     const f2e = addBiz(f2s, f2n-1);
+  const f2s = new Date('2026-05-06'); const f2e = addBiz(f2s, f2n-1);
   const p3s = addBiz(f2e, 1);     const p3e = addBiz(p3s, P3-1);
   const f3s = addBiz(p3e, 1);     const f3e = addBiz(f3s, f3n-1);
   const ls  = addBiz(f3e, 1);     const le  = addBiz(ls,  PL-1);
@@ -367,6 +372,38 @@ function build() {
 
   laneHeader('Client', '#085041');
   addRows(clRows, 'cl');
+
+  // Blocked overlay across all rows from BLOCKED_FROM
+  const wrap = document.getElementById('gt-wrap');
+  wrap.querySelectorAll('.blocked-overlay,.blocked-label').forEach(el => el.remove());
+  let blkIdx = -1;
+  bizDays.forEach((d,i) => { if (blkIdx<0 && d >= BLOCKED_FROM) blkIdx = i; });
+  if (blkIdx >= 0) {
+    requestAnimationFrame(() => {
+      const headerTh = table.rows[0].cells[blkIdx+1];
+      const wrapRect = wrap.getBoundingClientRect();
+      const thRect = headerTh.getBoundingClientRect();
+      const left = thRect.left - wrapRect.left;
+      const tableRect = table.getBoundingClientRect();
+      const right = tableRect.right - wrapRect.left;
+      const firstLane = table.querySelector('.lane-tr');
+      const top = firstLane.getBoundingClientRect().top - wrapRect.top;
+      const bottom = tableRect.bottom - wrapRect.top;
+      const ov = document.createElement('div');
+      ov.className = 'blocked-overlay';
+      ov.style.left = left + 'px';
+      ov.style.top = top + 'px';
+      ov.style.width = (right - left) + 'px';
+      ov.style.height = (bottom - top) + 'px';
+      wrap.appendChild(ov);
+      const lab = document.createElement('div');
+      lab.className = 'blocked-label';
+      lab.textContent = 'Blocked';
+      lab.style.left = (left + 6) + 'px';
+      lab.style.top = (top + 4) + 'px';
+      wrap.appendChild(lab);
+    });
+  }
 
   // Footer
   const ft = document.getElementById('ft'); ft.innerHTML='';
