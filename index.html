@@ -122,7 +122,7 @@ table { border-collapse: collapse; }
 .updates-heading { font-size: 11px; font-weight: 500; color: var(--ink-3); letter-spacing: 0.07em; text-transform: uppercase; margin-bottom: 14px; }
 .update-entry { background: var(--card); border: 1px solid var(--rule); border-radius: 10px; padding: 16px 18px; margin-bottom: 10px; display: flex; gap: 20px; align-items: baseline; flex-wrap: wrap; }
 .update-date { font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500; color: var(--ink-3); white-space: nowrap; min-width: 90px; }
-.update-text { font-size: 13px; color: var(--ink-2); line-height: 1.5; }
+.update-text { font-size: 13px; color: var(--ink-2); line-height: 1.5; flex: 1; min-width: 0; }
 .update-links { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
 .update-link { font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500; color: var(--purple-dark); background: var(--purple-bg); padding: 3px 10px; border-radius: 12px; text-decoration: none; }
 .update-link:hover { opacity: 0.75; }
@@ -201,6 +201,10 @@ table { border-collapse: collapse; }
 
   <div class="updates">
     <div class="updates-heading">Weekly updates</div>
+    <div class="update-entry">
+      <div class="update-date">Fri, 8 May</div>
+      <div class="update-text">Payment request sent and pending.<br>Site is set up on Webflow with placeholder content. Further progress is blocked due to the limitations of the free tier, and awaiting the content to be finalised for importing and testing.</div>
+    </div>
     <div class="update-entry">
       <div class="update-date">Fri, 1 May</div>
       <div class="update-text">Site created in Webflow. Colours, text styles, and content collections are added. Components building ongoing.</div>
