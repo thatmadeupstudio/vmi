@@ -206,6 +206,15 @@ table { border-collapse: collapse; }
   <div class="updates">
     <div class="updates-heading">Weekly updates</div>
     <div class="update-entry">
+      <div class="update-date">Fri, 22 May</div>
+      <div class="update-text">
+        Webflow payment request accepted, Piper can now access the website to review the progress and later edit the content as needed.
+        <div class="update-links">
+          <a class="update-link" href="https://vmi-worldwide.webflow.io/" target="_blank" rel="noopener">Preview staging site</a>
+        </div>
+      </div>
+    </div>
+    <div class="update-entry">
       <div class="update-date">Fri, 8 May</div>
       <div class="update-text">Payment request sent and pending.<br>Site is set up on Webflow with placeholder content. Further progress is blocked due to the limitations of the free tier, and awaiting the content to be finalised for importing and testing.</div>
     </div>
@@ -255,6 +264,7 @@ function countBiz(a,b){let n=0,d=new Date(a);while(d<=b){if(!isWE(d))n++;d=addD(
 const KICK = new Date('2026-03-22');
 const P1=10, P2=15, P3=10, PL=5;
 const BLOCKED_FROM = new Date('2026-05-06');
+const BLOCKED_TO = new Date('2026-05-22');
 const tip = document.getElementById('tip');
 
 document.addEventListener('mousemove', e => {
@@ -275,7 +285,7 @@ function build() {
   document.getElementById('f1v').textContent = countBiz(f1s, f1e) + 'd';
   const p2s = new Date('2026-04-16'); const p2e = addBiz(p2s, P2-1);
   const f2s = new Date('2026-05-06'); const f2e = addBiz(f2s, f2n-1);
-  const p3s = addBiz(f2e, 1);     const p3e = addBiz(p3s, P3-1);
+  const p3s = new Date('2026-05-25'); const p3e = addBiz(p3s, P3-1);
   const f3s = addBiz(p3e, 1);     const f3e = addBiz(f3s, f3n-1);
   const ls  = addBiz(f3e, 1);     const le  = addBiz(ls,  PL-1);
 
@@ -376,16 +386,20 @@ function build() {
   // Blocked overlay across all rows from BLOCKED_FROM
   const wrap = document.getElementById('gt-wrap');
   wrap.querySelectorAll('.blocked-overlay,.blocked-label').forEach(el => el.remove());
-  let blkIdx = -1;
-  bizDays.forEach((d,i) => { if (blkIdx<0 && d >= BLOCKED_FROM) blkIdx = i; });
-  if (blkIdx >= 0) {
+  let blkIdx = -1, blkEnd = -1;
+  bizDays.forEach((d,i) => {
+    if (blkIdx<0 && d >= BLOCKED_FROM) blkIdx = i;
+    if (d <= BLOCKED_TO) blkEnd = i;
+  });
+  if (blkIdx >= 0 && blkEnd >= blkIdx) {
     requestAnimationFrame(() => {
       const headerTh = table.rows[0].cells[blkIdx+1];
+      const endTh = table.rows[0].cells[blkEnd+1];
       const wrapRect = wrap.getBoundingClientRect();
       const thRect = headerTh.getBoundingClientRect();
       const left = thRect.left - wrapRect.left;
       const tableRect = table.getBoundingClientRect();
-      const right = tableRect.right - wrapRect.left;
+      const right = endTh.getBoundingClientRect().right - wrapRect.left;
       const firstLane = table.querySelector('.lane-tr');
       const top = firstLane.getBoundingClientRect().top - wrapRect.top;
       const bottom = tableRect.bottom - wrapRect.top;
