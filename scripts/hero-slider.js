@@ -37,8 +37,60 @@
 
   /* ── YouTube API Loader (Task 3) ──────────────────────────────────── */
   function loadYouTubeAPI() {
-    /* implemented in Task 3 */
+    /* Rewrite each iframe src to the embed format required by the IFrame API */
+    items.forEach(function (item) {
+      if (item.iframe && item.videoId) {
+        item.iframe.setAttribute(
+          'src',
+          'https://www.youtube-nocookie.com/embed/' + item.videoId +
+          '?enablejsapi=1&autoplay=0&mute=1&controls=0&rel=0&playsinline=1'
+        );
+      }
+    });
+
+    if (window.YT && window.YT.Player) {
+      createPlayers();
+      return;
+    }
+
+    var prev = window.onYouTubeIframeAPIReady;
+    window.onYouTubeIframeAPIReady = function () {
+      if (typeof prev === 'function') prev();
+      createPlayers();
+    };
+
+    var tag = document.createElement('script');
+    tag.src = 'https://www.youtube.com/iframe_api';
+    document.head.appendChild(tag);
   }
+
+  function createPlayers() {
+    items.forEach(function (item, i) {
+      if (!item.iframe || !item.videoId) return;
+
+      item.player = new YT.Player('hero-yt-' + i, {
+        events: {
+          onReady: function (event) {
+            var dur = event.target.getDuration();
+            item.duration = (dur && dur > 0) ? dur : 120;
+            item.ready = true;
+            if (item.pendingActivate) {
+              item.pendingActivate = false;
+              playItem(i);
+            }
+          },
+          onError: function () {
+            /* Leave item.ready = false; still image stays visible */
+          }
+        }
+      });
+    });
+
+    activateItem(0);
+  }
+
+  function playItem(i) { /* implemented in Task 4 */ }
+  function activateItem(i) { /* implemented in Task 4 */ }
 
   /* ── Boot ─────────────────────────────────────────────────────────── */
   if (document.readyState === 'loading') {
