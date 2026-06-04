@@ -195,5 +195,44 @@
     });
 
     loadYouTubeAPI();
+
+    /* ── Hover handlers ─────────────────────────────────────────── */
+    container.addEventListener('mouseenter', function () {
+      if (!isHovering) {
+        isHovering = true;
+        timerElapsed += performance.now() - timerStart;
+        cancelAnimationFrame(rafHandle);
+      }
+    });
+
+    container.addEventListener('mouseleave', function () {
+      if (isHovering) {
+        isHovering = false;
+        timerStart = performance.now();
+        rafHandle  = requestAnimationFrame(tick);
+      }
+    });
+
+    domItems.forEach(function (el, i) {
+      el.addEventListener('mouseenter', function () {
+        if (i !== activeIdx) {
+          activateItem(i);
+        }
+      });
+
+      var titleLink = el.querySelector('.hero-title');
+      if (titleLink) {
+        titleLink.addEventListener('touchstart', function (e) {
+          e.preventDefault();
+          if (i !== activeIdx) {
+            isHovering = true;
+            activateItem(i);
+            isHovering = false;
+            timerStart = performance.now();
+            rafHandle  = requestAnimationFrame(tick);
+          }
+        }, { passive: false });
+      }
+    });
   }
 })();
