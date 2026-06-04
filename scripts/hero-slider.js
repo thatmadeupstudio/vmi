@@ -134,8 +134,26 @@
     }
   }
 
-  function tick() { /* implemented in Task 5 */ }
-  function advance() { /* implemented in Task 5 */ }
+  function tick() {
+    var elapsed = timerElapsed + (performance.now() - timerStart);
+    var item = items[activeIdx];
+
+    if (item && item.progressEl) {
+      var pct = Math.min(elapsed / SLIDE_DURATION, 1) * 100;
+      item.progressEl.style.width = pct + '%';
+    }
+
+    if (elapsed >= SLIDE_DURATION) {
+      advance();
+      return;
+    }
+
+    rafHandle = requestAnimationFrame(tick);
+  }
+  function advance() {
+    var nextIdx = (activeIdx + 1) % items.length;
+    activateItem(nextIdx);
+  }
 
   /* ── Boot ─────────────────────────────────────────────────────────── */
   if (document.readyState === 'loading') {
