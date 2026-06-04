@@ -89,8 +89,53 @@
     activateItem(0);
   }
 
-  function playItem(i) { /* implemented in Task 4 */ }
-  function activateItem(i) { /* implemented in Task 4 */ }
+  function playItem(i) {
+    var item = items[i];
+    if (!item.player || !item.ready) return;
+    var startSec = Math.floor(item.duration / 2);
+    try {
+      item.player.seekTo(startSec, true);
+      item.player.playVideo();
+    } catch (e) {}
+  }
+
+  function activateItem(i) {
+    items.forEach(function (item, idx) {
+      item.el.classList.remove('is-active');
+      if (item.player && item.ready && idx !== i) {
+        try { item.player.pauseVideo(); } catch (e) {}
+      }
+    });
+
+    activeIdx = i;
+    var item = items[i];
+    item.el.classList.add('is-active');
+
+    items.forEach(function (it) {
+      if (it.counterEl) {
+        it.counterEl.textContent = (i + 1) + '/' + items.length;
+      }
+    });
+
+    if (item.progressEl) item.progressEl.style.width = '0%';
+
+    if (item.ready) {
+      playItem(i);
+    } else {
+      item.pendingActivate = true;
+    }
+
+    timerElapsed = 0;
+    timerStart   = performance.now();
+
+    cancelAnimationFrame(rafHandle);
+    if (!isHovering) {
+      rafHandle = requestAnimationFrame(tick);
+    }
+  }
+
+  function tick() { /* implemented in Task 5 */ }
+  function advance() { /* implemented in Task 5 */ }
 
   /* ── Boot ─────────────────────────────────────────────────────────── */
   if (document.readyState === 'loading') {
