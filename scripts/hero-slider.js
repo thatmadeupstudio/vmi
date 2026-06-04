@@ -72,6 +72,7 @@
         events: {
           onReady: function (event) {
             var dur = event.target.getDuration();
+            /* 120 = fictional full-duration so Math.floor(120/2)=60 s seek matches spec fallback */
             item.duration = (dur && dur > 0) ? dur : 120;
             item.ready = true;
             if (item.pendingActivate) {
@@ -102,8 +103,11 @@
   function activateItem(i) {
     items.forEach(function (item, idx) {
       item.el.classList.remove('is-active');
-      if (item.player && item.ready && idx !== i) {
-        try { item.player.pauseVideo(); } catch (e) {}
+      if (idx !== i) {
+        item.pendingActivate = false;
+        if (item.player && item.ready) {
+          try { item.player.pauseVideo(); } catch (e) {}
+        }
       }
     });
 
@@ -170,6 +174,7 @@
     );
     if (!domItems.length) return;
 
+    timerStart = performance.now();
     injectCSS();
 
     domItems.forEach(function (el, i) {
@@ -223,8 +228,8 @@
       var titleLink = el.querySelector('.hero-title');
       if (titleLink) {
         titleLink.addEventListener('touchstart', function (e) {
-          e.preventDefault();
           if (i !== activeIdx) {
+            e.preventDefault();
             isHovering = true;
             activateItem(i);
             isHovering = false;
