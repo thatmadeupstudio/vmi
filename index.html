@@ -178,8 +178,7 @@ table { border-collapse: collapse; }
     <div class="ctrl">
       <div class="ctrl-name">Feedback R2 — after design</div>
       <div class="ctrl-row">
-        <input type="range" id="f2" min="1" max="10" value="5" step="1">
-        <span class="ctrl-pill" id="f2v">5d</span>
+        <span class="ctrl-pill" id="f2v"></span>
       </div>
     </div>
     <div class="ctrl">
@@ -206,9 +205,13 @@ table { border-collapse: collapse; }
   <div class="updates">
     <div class="updates-heading">Weekly updates</div>
     <div class="update-entry">
+      <div class="update-date">Thu, 5 Jun</div>
+      <div class="update-text">Phase 3 is underway. All pages are built and core functionality is working well, with a few small bugs still to address. The remaining work is responsiveness and testing ahead of launch.</div>
+    </div>
+    <div class="update-entry">
       <div class="update-date">Fri, 22 May</div>
       <div class="update-text">
-        Webflow payment request accepted, Piper can now access the website to review the progress and later edit the content as needed.
+        Webflow subscription is now active. Piper has access to the staging site to review progress and will be able to manage content directly when needed.
         <div class="update-links">
           <a class="update-link" href="https://vmi-worldwide.webflow.io/" target="_blank" rel="noopener">Preview staging site</a>
         </div>
@@ -216,16 +219,16 @@ table { border-collapse: collapse; }
     </div>
     <div class="update-entry">
       <div class="update-date">Fri, 8 May</div>
-      <div class="update-text">Payment request sent and pending.<br>Site is set up on Webflow with placeholder content. Further progress is blocked due to the limitations of the free tier, and awaiting the content to be finalised for importing and testing.</div>
+      <div class="update-text">Payment request sent and pending. The site is set up on Webflow with placeholder content. Progress is on hold while awaiting the final content — once received, we can import and begin testing.</div>
     </div>
     <div class="update-entry">
       <div class="update-date">Fri, 1 May</div>
-      <div class="update-text">Site created in Webflow. Colours, text styles, and content collections are added. Components building ongoing.</div>
+      <div class="update-text">Webflow site is set up. Colours, typography, and content collections are in place, and component development is ongoing.</div>
     </div>
     <div class="update-entry">
       <div class="update-date">Fri, 24 Apr</div>
       <div class="update-text">
-        Hi-fi designs shared. Awaiting content to be provided to finalise.
+        Hi-fi designs are shared for review. Awaiting final content before we can proceed to the build phase.
         <div class="update-links">
           <a class="update-link" href="https://www.figma.com/proto/tHeiPa3b0OuzgL7Tzb6OMC/VMI?node-id=5192-7362&p=f&viewport=536%2C60%2C0.03&t=ksjM4d1O5xrBmHQi-1&scaling=scale-down-width&content-scaling=fixed&page-id=5192%3A7360" target="_blank" rel="noopener">VMI Worldwide designs</a>
           <a class="update-link" href="https://www.figma.com/proto/tHeiPa3b0OuzgL7Tzb6OMC/VMI?node-id=5196-10461&p=f&viewport=536%2C60%2C0.03&t=6NNxXNQVqyZlnAbz-1&scaling=scale-down-width&content-scaling=fixed&page-id=5192%3A7361" target="_blank" rel="noopener">Vantage Media designs</a>
@@ -235,7 +238,7 @@ table { border-collapse: collapse; }
     <div class="update-entry">
       <div class="update-date">Fri, 3 Apr</div>
       <div class="update-text">
-        Site structure, wireframes, and moodboard finalised.
+        Site structure, wireframes, and moodboard are finalised.
         <div class="update-links">
           <a class="update-link" href="https://www.figma.com/board/usTo4r9tC9ra3P1FpPOIm5/VMI-Worldwide---Concepts---Wireframes?node-id=0-1&p=f&t=QL1muGzmAo6kGkSg-0" target="_blank" rel="noopener">Site structure</a>
           <a class="update-link" href="https://www.figma.com/proto/tHeiPa3b0OuzgL7Tzb6OMC/VMI?node-id=4769-59&p=f&t=0kVFIIeXjWfjWPj5-0&scaling=scale-down-width&content-scaling=fixed&starting-point-node-id=4769%3A59&page-id=387%3A2406" target="_blank" rel="noopener">Moodboard</a>
@@ -245,7 +248,7 @@ table { border-collapse: collapse; }
     </div>
     <div class="update-entry">
       <div class="update-date">Fri, 27 Mar</div>
-      <div class="update-text">Finalised the site structure and user flow. Wireframes and moodboard ongoing.</div>
+      <div class="update-text">Site structure and user flow are finalised. Wireframes and moodboard are in progress.</div>
     </div>
   </div>
 
@@ -275,7 +278,7 @@ document.addEventListener('mousemove', e => {
 });
 
 function build() {
-  const f2n = +document.getElementById('f2').value;
+  const f2n = 10;
   const f3n = +document.getElementById('f3').value;
   document.getElementById('f2v').textContent = f2n + 'd';
   document.getElementById('f3v').textContent = f3n + 'd';
@@ -285,7 +288,7 @@ function build() {
   document.getElementById('f1v').textContent = countBiz(f1s, f1e) + 'd';
   const p2s = new Date('2026-04-16'); const p2e = addBiz(p2s, P2-1);
   const f2s = new Date('2026-05-06'); const f2e = addBiz(f2s, f2n-1);
-  const p3s = new Date('2026-05-25'); const p3e = addBiz(p3s, P3-1);
+  const p3s = new Date('2026-06-03'); const p3e = addBiz(p3s, P3-1);
   const f3s = addBiz(p3e, 1);     const f3e = addBiz(f3s, f3n-1);
   const ls  = addBiz(f3e, 1);     const le  = addBiz(ls,  PL-1);
 
